@@ -1,19 +1,21 @@
 # todo-vue-app
 
-## Project setup
-```
-npm install
-```
+## Запуск проекту через Vue CLI
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+1. Встановити залежності:
+   ```
+   npm install
+   ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+2. Запустити проект у режимі розробки:
+   ```
+   npm run serve
+   ```
+
+3. Зібрати проект для продакшну:
+   ```
+   npm run build
+   ```
 
 ### Lints and fixes files
 ```
