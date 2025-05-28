@@ -2,17 +2,21 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
+import { auth } from '../firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const routes = [
   { 
     path: '/', 
     component: Home,
     beforeEnter: (to, from, next) => {
-      if (!localStorage.getItem('user')) {
-        next('/login')
-      } else {
-        next()
-      }
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          next('/login')
+        } else {
+          next()
+        }
+      })
     }
   },
   { path: '/about', component: About },
