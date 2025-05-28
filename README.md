@@ -67,3 +67,22 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Kanban-функціонал
+
+- Kanban-дошка з трьома колонками: "Заплановано", "В процесі", "Готово"
+- Перетягування задач між колонками (drag&drop через vuedraggable)
+- Додавання, видалення, редагування задач
+- Підтримка тегів та фільтрація задач за тегами
+
+## Інтеграція з Firebase
+
+- Дані задач зберігаються у Firebase Firestore
+- Аутентифікація користувача через Firebase Auth
+- Всі зміни синхронізуються в реальному часі між усіма користувачами
+
+## Технології
+
+- Vue 3
+- vuedraggable
+- Firebase (Auth + Firestore)
