@@ -1,48 +1,16 @@
 <template>
   <div id="app">
-    <h1>Todo App</h1>
-    <input v-model="newTodo" @keyup.enter="addTodo" placeholder="Додати задачу" />
-    <button @click="addTodo">Додати</button>
-    <ul>
-      <TodoItem
-        v-for="(todo, index) in todos"
-        :key="index"
-        :todo="todo"
-        @toggle="toggleTodo(index)"
-        @remove="removeTodo(index)"
-      />
-    </ul>
+    <nav>
+      <router-link to="/">Головна</router-link> |
+      <router-link to="/about">Про додаток</router-link>
+    </nav>
+    <router-view />
   </div>
 </template>
 
 <script>
-import TodoItem from './components/TodoItem.vue'
-
 export default {
   name: 'App',
-  components: {
-    TodoItem
-  },
-  data() {
-    return {
-      newTodo: '',
-      todos: []
-    }
-  },
-  methods: {
-    addTodo() {
-      if (this.newTodo.trim()) {
-        this.todos.push({ text: this.newTodo, done: false });
-        this.newTodo = '';
-      }
-    },
-    toggleTodo(index) {
-      this.todos[index].done = !this.todos[index].done;
-    },
-    removeTodo(index) {
-      this.todos.splice(index, 1);
-    }
-  }
 }
 </script>
 
@@ -63,5 +31,8 @@ button {
 li {
   margin: 10px 0;
   list-style: none;
+}
+nav {
+  margin-bottom: 20px;
 }
 </style>
