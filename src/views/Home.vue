@@ -1,12 +1,13 @@
 <template>
   <div>
+    <div v-if="message" class="notify">{{ message }}</div>
     <h1>Todo App</h1>
     <input v-model="newTodo" @keyup.enter="addTodo" placeholder="Додати задачу" />
     <button @click="addTodo">Додати</button>
     <ul>
       <transition-group name="fade" tag="ul">
         <TodoItem
-          v-for="(todo, index) in todoStore.todos"
+          v-for="(todo, index) in todos"
           :key="todo.text + index"
           :todo="todo"
           @toggle="toggleTodo(index)"
@@ -17,23 +18,35 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script>
 import TodoItem from '../components/TodoItem.vue'
-import { useTodoStore } from '../stores/todo'
+import notify from '../mixins/notify'
 
-const newTodo = ref('')
-const todoStore = useTodoStore()
-
-function addTodo() {
-  todoStore.addTodo(newTodo.value)
-  newTodo.value = ''
-}
-function toggleTodo(index) {
-  todoStore.toggleTodo(index)
-}
-function removeTodo(index) {
-  todoStore.removeTodo(index)
+export default {
+  name: 'HomePage',
+  components: { TodoItem },
+  mixins: [notify],
+  data() {
+    return {
+      newTodo: '',
+      todos: []
+    }
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo.trim()) {
+        this.todos.push({ text: this.newTodo, done: false });
+        this.newTodo = '';
+        this.showMessage('Задачу додано!');
+      }
+    },
+    toggleTodo(index) {
+      this.todos[index].done = !this.todos[index].done;
+    },
+    removeTodo(index) {
+      this.todos.splice(index, 1);
+    }
+  }
 }
 </script>
 
@@ -45,10 +58,8 @@ function removeTodo(index) {
   opacity: 0;
   transform: translateY(20px);
 }
-</style>
-
-<script>
-export default {
-  name: 'HomePage'
+.notify {
+  color: green;
+  margin-bottom: 10px;
 }
-</script>
+</style>
