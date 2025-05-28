@@ -4,22 +4,25 @@
     <input v-model="newTodo" @keyup.enter="addTodo" placeholder="Додати задачу" />
     <button @click="addTodo">Додати</button>
     <ul>
-      <li v-for="(todo, index) in todos" :key="index">
-        <span :style="{ textDecoration: todo.done ? 'line-through' : 'none' }">
-          {{ todo.text }}
-        </span>
-        <button @click="toggleTodo(index)">
-          {{ todo.done ? 'Відновити' : 'Виконано' }}
-        </button>
-        <button @click="removeTodo(index)">Видалити</button>
-      </li>
+      <TodoItem
+        v-for="(todo, index) in todos"
+        :key="index"
+        :todo="todo"
+        @toggle="toggleTodo(index)"
+        @remove="removeTodo(index)"
+      />
     </ul>
   </div>
 </template>
 
 <script>
+import TodoItem from './components/TodoItem.vue'
+
 export default {
   name: 'App',
+  components: {
+    TodoItem
+  },
   data() {
     return {
       newTodo: '',
