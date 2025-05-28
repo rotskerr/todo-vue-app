@@ -5,7 +5,7 @@
     <button @click="addTodo">Додати</button>
     <ul>
       <TodoItem
-        v-for="(todo, index) in todos"
+        v-for="(todo, index) in todoStore.todos"
         :key="index"
         :todo="todo"
         @toggle="toggleTodo(index)"
@@ -18,23 +18,20 @@
 <script setup>
 import { ref } from 'vue'
 import TodoItem from '../components/TodoItem.vue'
+import { useTodoStore } from '../stores/todo'
 
 const newTodo = ref('')
-const todos = ref([])
+const todoStore = useTodoStore()
 
 function addTodo() {
-  if (newTodo.value.trim()) {
-    todos.value.push({ text: newTodo.value, done: false });
-    newTodo.value = '';
-  }
+  todoStore.addTodo(newTodo.value)
+  newTodo.value = ''
 }
-
 function toggleTodo(index) {
-  todos.value[index].done = !todos.value[index].done;
+  todoStore.toggleTodo(index)
 }
-
 function removeTodo(index) {
-  todos.value.splice(index, 1);
+  todoStore.removeTodo(index)
 }
 </script>
 
