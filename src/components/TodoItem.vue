@@ -2,16 +2,32 @@
   <li :class="['todo-card', todo.status]">
     <div class="todo-main">
       <span class="todo-title">{{ todo.text }}</span>
+      <span v-if="todo.points" class="todo-points" title="Бали">+{{ todo.points }}</span>
       <button @click="$emit('remove', todo)">✕</button>
     </div>
     <div v-if="todo.details" class="todo-details">{{ todo.details }}</div>
+    <div v-if="todo.deadline" class="todo-deadline" :class="{ overdue: isOverdue }">
+      Дедлайн: {{ formatDate(todo.deadline) }}
+    </div>
     <!-- Додай кнопки для зміни статусу, якщо треба -->
   </li>
 </template>
 
 <script>
 export default {
-  props: ['todo']
+  props: ['todo'],
+  computed: {
+    isOverdue() {
+      if (!this.todo.deadline) return false;
+      return new Date(this.todo.deadline) < new Date() && this.todo.status !== 'done';
+    }
+  },
+  methods: {
+    formatDate(date) {
+      if (!date) return '';
+      return new Date(date).toLocaleDateString();
+    }
+  }
 }
 </script>
 
@@ -41,6 +57,15 @@ export default {
   color: #555;
   font-size: 0.97em;
 }
+.todo-deadline {
+  margin-top: 6px;
+  font-size: 0.95em;
+  color: #2563eb;
+}
+.todo-deadline.overdue {
+  color: #e53e3e;
+  font-weight: bold;
+}
 button {
   background: none;
   border: none;
@@ -55,5 +80,14 @@ li {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+.todo-points {
+  background: #f6ad55;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.95em;
+  margin-left: 10px;
+  font-weight: 600;
 }
 </style>
